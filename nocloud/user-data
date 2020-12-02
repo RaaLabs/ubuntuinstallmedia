@@ -1,0 +1,49 @@
+autoinstall:
+  version: 1
+  #reporting:
+  #  central:
+  #    type: rsyslog
+  #    destination: @10.0.0.122
+  early-commands:
+    - systemctl stop ssh
+  network:
+    network:
+      version: 2
+      ethernets:
+        #enp0s3:
+        en:
+          match:
+            name: en*
+          dhcp4: yes
+          dhcp-identifier: mac
+        eth:
+          match:
+            name: eth*
+          dhcp4: yes
+          dhcp-identifier: mac
+  apt:
+    preserve_sources_list: false
+    primary:
+      - arches: [amd64]
+        uri: "http://archive.ubuntu.com/ubuntu/"
+  ssh:
+    install-server: yes
+    authorized-keys:
+      - "your SSH pub key here"
+    allow-pw: yes
+  identity:
+    hostname: ubuntu-00
+    password: "$6$exDY1mhS4KUYCE/2$zmn9ToZwTKLhCw.b4/b.ZRTIZM30JZ4QrOQ2aOXJ8yk96xpcCof0kxKwuX1kqLG/ygbJ1f8wxED22bTL4F46P0"
+    username: ubuntu # root doesn't work
+  packages:
+    - network-manager
+    - docker.io
+    - wireguard-tools
+  user-data:
+    disable_root: false
+  late-commands:
+    - echo 'ubuntu ALL=(ALL) NOPASSWD:ALL' > /target/etc/sudoers.d/ubuntu
+    - sed -ie 's/GRUB_CMDLINE_LINUX=.*/GRUB_CMDLINE_LINUX="net.ifnames=0 ipv6.disable=1 biosdevname=0"/' /target/etc/default/grub
+    - curtin in-target --target /target update-grub2
+    - git clone https://github.com/RaaLabs/edgeinstall.git /target/root/edgeinstall
+    - cp -a /cdrom/files/* /target/

@@ -1,0 +1,10 @@
+# Let NetworkManager manage all devices on this system
+network:
+  version: 2
+  renderer: NetworkManager
+  ethernets:
+    eth:
+      dhcp-identifier: mac
+      dhcp4: true
+      match:
+        name: eth
