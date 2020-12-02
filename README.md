@@ -169,7 +169,7 @@ If you want to use a web directory to serve the config file, the parameters shou
 
 `linux	/casper/vmlinuz autoinstall ds=nocloud-net\;s=http://my-config-files.com/ quiet  ---`
 
-An important thing to notice is that Grub parses the config a bit different than ISOlinux, so we need to escape the semicolon between the `ds=nocloud` and the `s=....` with a `\` as you can see in the config above. As mentioned, this is not necessary with the ISOlinux config, just the grub config.
+An important thing to notice is that Grub parses the config a bit differently than ISOlinux, so we need to escape the semicolon between the `ds=nocloud` and the `s=....` with a `\` as you can see in the config above. As mentioned, this is not necessary with the ISOlinux config, just the grub config.
 
 To actually make the USB, we start by formatting an USB stick with a `fat32` filesystem.
 
@@ -245,3 +245,29 @@ runcmd:
 When adding more cloud init files the should be put into the `/files` folder on the root level in the ISO image directory. If you look at the `/nocloud/user-data` file that is in the same directory as this readme you will see that there is specified a late-command right at the end that will copy over all the files that are in the /files directory over to the /target directory where /target will be the actual disk being installed into when this USB/ISO is booted later on.
 By using this structure we can simpy add more cloud init files to be automatically executed on first bootup after installation is done by adding the appropriate init file into the `/files/etc/cloud/cloud.cfg.d` directory.
 NB: Just make sure you add the same hierarchy in the `/files` folder as you want it to be on the actual installed server.
+
+## References
+
+<https://gist.github.com/s3rj1k/55b10cd20f31542046018fcce32f103e>\
+<https://qiita.com/YasuhiroABE/items/637f1046a15938f9d3e9>\
+<https://utcc.utoronto.ca/~cks/space/blog/linux/Ubuntu2004ISOWithUEFI>\
+<https://help.ubuntu.com/community/Installation/iso2usb>\
+<https://askubuntu.com/questions/1269961/establish-internet-connection-with-lte-card-and-netplan>
+
+Example of user-datas files\
+<https://gist.github.com/wpbrown/b688a934339cb4228c3faf5b527fbe5b>\
+<https://gist.github.com/tlhakhan/97ee4d9f22eed7530c4be339a80a6f68>\
+<https://gist.github.com/s3rj1k/55b10cd20f31542046018fcce32f103e>
+
+Autoinstall references\
+<https://ubuntu.com/server/docs/install/autoinstall-reference>\
+<https://ubuntu.com/server/docs/install/autoinstall-quickstart>
+
+How to make an ISO\
+<https://ubuntuusertips.wordpress.com/2013/07/16/modify-an-iso-image-for-a-custom-install-cdrom/>
+
+<https://curtin.readthedocs.io/en/latest/topics/overview.html>
+
+<https://cloudinit.readthedocs.io/en/latest/topics/examples.html>
+
+<http://ftp.labdoo.org/download/Public/manuals/manuals-ubuntu/EN/ubuntu-server-guide.pdf>
