@@ -1,7 +1,12 @@
 #!/bin/bash
 
+# This script is for creating the RaaLabs install iso.
+# The packages needed to be installed for this script are
+# apt install p7zip git mkisofs
+
 RELEASEISONAME="raalabs-ubuntu-20.04.1.iso"
 IMAGEURL="https://releases.ubuntu.com/20.04.1/ubuntu-20.04.1-live-server-amd64.iso"
+INSTALLREPO="git@github.com:RaaLabs/ubuntuinstallmedia.git"
 
 wget $IMAGEURL
 IMAGEFILE=$(basename $IMAGEURL)
@@ -10,7 +15,6 @@ UBUNTUCONTENT="ubuntu-content"
 7z x $IMAGEFILE -o$UBUNTUCONTENT
 rm -rf $UBUNTUCONTENT/'[BOOT]'
 
-INSTALLREPO="git@github.com:RaaLabs/ubuntuinstallmedia.git"
 REPOFOLDER=$(basename $INSTALLREPO| awk -F'.' '{print $1}')
 rm -rf $REPOFOLDER
 git clone $INSTALLREPO
